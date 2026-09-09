@@ -19,3 +19,15 @@ export type ItemPage = {
   offset: number;
   has_more: boolean;
 };
+
+export type ItemCreate = {
+  name: string;
+  brand?: string | null;
+  category: string;
+  color: string;
+  size: string;
+  price?: string | null
+  purchase_date?: string | null;
+  condition?: string | null;
+  notes?: string | null;
+}
