@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+import { ItemForm } from "@/components/closet/item-form";
 import { getItems } from "@/lib/api";
 
 export default function ClosetPage() {
@@ -32,13 +33,17 @@ export default function ClosetPage() {
         {data?.total ?? 0} items
       </p>
 
+      <ItemForm />
+
       <div className="space-y-4">
         {data?.items.map((item) => (
           <div
             key={item.id}
             className="border border-neutral-800 p-4"
           >
-            <h2 className="font-medium">{item.name}</h2>
+            <h2 className="font-medium">
+              {item.name}
+            </h2>
 
             <p className="text-sm text-neutral-500">
               {item.brand ?? "Unknown brand"} · {item.category}

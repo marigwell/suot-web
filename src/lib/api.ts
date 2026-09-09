@@ -5,7 +5,7 @@ import type {
   User,
 } from "@/types/auth";
 import { getAccessToken } from "@/lib/auth";
-import type { ItemPage } from "@/types/item";
+import type { Item, ItemCreate, ItemPage } from "@/types/item";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -77,4 +77,15 @@ export function getItems(): Promise<ItemPage> {
   return apiRequest<ItemPage>("/items", {
     authenticated: true,
   });
+}
+
+export function createItem(data: ItemCreate): Promise<Item> {
+  return apiRequest<Item>("/items", {
+    method: "POST",
+    authenticated: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
 }
