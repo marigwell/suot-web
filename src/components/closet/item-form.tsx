@@ -17,9 +17,21 @@ export function ItemForm() {
     register,
     handleSubmit,
     reset,
+    // watch,
     formState: { errors },
   } = useForm<ItemCreateFormData>({
     resolver: zodResolver(itemCreateSchema),
+    defaultValues: {
+      name: "",
+      brand: "",
+      category: "",
+      color: "",
+      size: "",
+      price: "",
+      purchase_date: "",
+      condition: "",
+      notes: "",
+    },
   });
 
   const mutation = useMutation({
@@ -45,6 +57,7 @@ export function ItemForm() {
   }
 
   return (
+    
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mb-10 space-y-4 border border-neutral-800 p-5"
@@ -142,6 +155,10 @@ export function ItemForm() {
           Unable to create item.
         </p>
       )}
+
+      {/* <pre className="text-xs">
+        {JSON.stringify(watch(), null, 2)}
+      </pre> */}
 
       <button
         type="submit"

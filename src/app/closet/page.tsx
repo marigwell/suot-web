@@ -1,9 +1,12 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 import { ItemForm } from "@/components/closet/item-form";
-import { getItems } from "@/lib/api";
+import { ItemEditForm } from "@/components/closet/item-edit-form";
+import { getItems, deleteItem } from "@/lib/api";
+
 
 export default function ClosetPage() {
   const {
@@ -13,6 +16,19 @@ export default function ClosetPage() {
   } = useQuery({
     queryKey: ["items"],
     queryFn: getItems,
+  });
+
+  const [editingItemId, setEditingItemId] = useState<number | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteItem,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["items"],
+      });
+    },
   });
 
   if (isLoading) {
@@ -48,6 +64,30 @@ export default function ClosetPage() {
             <p className="text-sm text-neutral-500">
               {item.brand ?? "Unknown brand"} · {item.category}
             </p>
+
+            {editingItemId === item.id ? (
+              <ItemEditForm
+                item={item}
+                onCancel={() => setEditingItemId(null)}
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setEditingItemId(item.id)}
+                className="mt-3 border border-neutral-700 px-3 py-1 text-sm"
+              >
+                Edit
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => deleteMutation.mutate(item.id)}
+              disabled={deleteMutation.isPending}
+              className="mt-3 border border-neutral-700 px-3 py-1 text-sm"
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
