@@ -31,3 +31,15 @@ export type ItemCreate = {
   condition?: string | null;
   notes?: string | null;
 }
+
+export type ItemUpdate = {
+  name?: string;
+  brand?: string | null;
+  category?: string;
+  color?: string;
+  size?: string;
+  price?: string | null;
+  purchase_date?: string | null;
+  condition?: string | null;
+  notes?: string | null;
+};

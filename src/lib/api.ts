@@ -5,7 +5,12 @@ import type {
   User,
 } from "@/types/auth";
 import { getAccessToken } from "@/lib/auth";
-import type { Item, ItemCreate, ItemPage } from "@/types/item";
+import type { 
+  Item, 
+  ItemCreate, 
+  ItemPage,
+  ItemUpdate,
+ } from "@/types/item";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -88,4 +93,25 @@ export function createItem(data: ItemCreate): Promise<Item> {
     },
     body: JSON.stringify(data),
   })
+}
+
+export function updateItem(
+  itemId: number,
+  data: ItemUpdate,
+): Promise<Item> {
+  return apiRequest<Item>(`/items/${itemId}`, {
+    method: "PATCH",
+    authenticated: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  })
+}
+
+export function deleteItem(itemId: number): Promise<boolean> {
+  return apiRequest<boolean>(`/items/${itemId}` , {
+    method: "DELETE",
+    authenticated: true,
+  });
 }
