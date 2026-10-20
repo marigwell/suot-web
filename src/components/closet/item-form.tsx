@@ -11,6 +11,9 @@ import {
 } from "@/schemas/item";
 
 export function ItemForm() {
+  // reset() clears RHF field refs; compiler caching prevents re-registration.
+  "use no memo";
+
   const queryClient = useQueryClient();
 
   const {
